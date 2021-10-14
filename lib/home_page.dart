@@ -38,6 +38,11 @@ class ProjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 1.5;
+    final double itemWidth = size.width / 2;
     return Scaffold(
       // backgroundColor: Colors.red,
       // body: SizedBox(
@@ -62,48 +67,55 @@ class ProjectsPage extends StatelessWidget {
           Text('Published apps'),
           GridView.count(
             shrinkWrap: true,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 4),
+            childAspectRatio: (itemWidth / itemHeight),
             crossAxisSpacing: 40,
-            crossAxisCount: 2,
+            crossAxisCount: 4,
             children: [
-              ExpansionTile(
-                leading: Image.asset('assets/images/Google-Play-Store.png'),
-                title: Text('Fruits vs Vegetables'),
-                children: [
-                  Image.asset('assets/images/Google-Play-Store.png'),
-                ],
-              ),
-              Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.home),
-                        Text('Fruit vs Vegetables'),
-                      ],
-                    ),
-                    Text('a quiz app')
-                  ],
-                ),
-              ),
-              Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.home),
-                        Text('Fruit vs Vegetables'),
-                      ],
-                    ),
-                    Text('a quiz app')
-                  ],
-                ),
-              ),
+              ProjectCard2(),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProjectCard2 extends StatelessWidget {
+  const ProjectCard2({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Image.asset(
+              'assets/images/fruits_vs_vegetables_logo_nobg.png',
+              height: 100,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Fruits vs Vegetables',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'ever wondered if a food is a fruit or vegetable? now you can easily discover that.',
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: FlutterLogo(),
+          )
         ],
       ),
     );
