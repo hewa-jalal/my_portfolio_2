@@ -1,11 +1,12 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:glass/glass.dart';
+// import 'package:sizer/sizer.dart';
 
 import 'package:parallax_rain/parallax_rain.dart';
+
+import 'pages/project_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +20,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FabCircularMenu(
+        children: <Widget>[
+          IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                print('Home');
+              }),
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              print('Favorite');
+            },
+          )
+        ],
+      ),
       body: PageView(
         controller: controller,
         scrollDirection: Axis.vertical,
@@ -27,167 +43,6 @@ class _HomePageState extends State<HomePage> {
           IntroductionWidget(),
         ],
       ),
-    );
-  }
-}
-
-class ProjectsPage extends StatelessWidget {
-  const ProjectsPage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
-    /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 1.5;
-    final double itemWidth = size.width / 2;
-    return Scaffold(
-      // backgroundColor: Colors.red,
-      // body: SizedBox(
-      //   height: 100,
-      //   width: 400,
-      //   child: GFListTile(
-      //     color: Colors.blue,
-      //     avatar: GFAvatar(),
-      //     titleText: 'Title',
-      //     subTitleText: 'Lorem ipsum dolor sit amet, consectetur adipiscing',
-      //     icon: Icon(Icons.favorite),
-      //   ),
-      // ),
-      // body: ExpansionTile(
-      //   children: [Text('Open google play store')],
-      //   title: Text('Fruit vs Vegetables'),
-      //   subtitle: Text('a quiz app'),
-      //   leading: Icon(Icons.picture_as_pdf_sharp),
-      // ),
-      body: Column(
-        children: [
-          Text('Published apps'),
-          GridView.count(
-            shrinkWrap: true,
-            childAspectRatio: (itemWidth / itemHeight),
-            crossAxisSpacing: 40,
-            crossAxisCount: 4,
-            children: [
-              ProjectCard2(),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProjectCard2 extends StatelessWidget {
-  const ProjectCard2({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Image.asset(
-              'assets/images/fruits_vs_vegetables_logo_nobg.png',
-              height: 100,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              'Fruits vs Vegetables',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              'ever wondered if a food is a fruit or vegetable? now you can easily discover that.',
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: FlutterLogo(),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class ProjectCard extends StatelessWidget {
-  const ProjectCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        height: 20,
-        color: Colors.white,
-        child: Row(
-          children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Expanded(
-                  child: Image.asset("assets/images/shape_of_you.png"),
-                  flex: 2,
-                ),
-              ),
-            ),
-            Flexible(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      child: ListTile(
-                        title: Text("Shape Of You"),
-                        subtitle: Text("Ed Sheeran"),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            child: Text("PLAY"),
-                            onPressed: () {},
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          TextButton(
-                            child: Text("ADD TO QUEUE"),
-                            onPressed: () {},
-                          ),
-                          SizedBox(
-                            width: 8,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              flex: 2,
-            ),
-          ],
-        ),
-      ),
-      elevation: 8,
-      margin: EdgeInsets.all(10),
     );
   }
 }
@@ -235,7 +90,7 @@ class IntroductionWidget extends StatelessWidget {
           Positioned(
             bottom: 74,
             child: Text(
-              'Scroll down to see projects',
+              'Scroll down to see my projects',
               style: GoogleFonts.raleway(
                 fontSize: 20,
                 color: Colors.white,
