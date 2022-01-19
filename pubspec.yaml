@@ -40,6 +40,10 @@ dependencies:
   responsive_grid: ^2.0.0
   auto_size_text: ^3.0.0
   fab_circular_menu: ^1.0.2
+  scroll_snap_list: ^0.8.4
+  carousel_slider: ^4.0.0
+  scrollable_positioned_list: ^0.2.3
+  scroll_to_index: ^2.1.1
 
 dev_dependencies:
   flutter_test:

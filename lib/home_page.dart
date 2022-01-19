@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FabCircularMenu(
+        ringWidth: 30,
+        ringDiameter: 200,
         children: <Widget>[
           IconButton(
               icon: Icon(Icons.home),
@@ -32,7 +34,19 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               print('Favorite');
             },
-          )
+          ),
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              print('Favorite');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              print('Favorite');
+            },
+          ),
         ],
       ),
       body: PageView(
