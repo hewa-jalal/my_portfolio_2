@@ -14,7 +14,6 @@ final projectList = <Project>[
     description:
         'ever wondered if a food is a fruit or vegetable? now you can easily discover that.',
   ),
-
   Project(
       title: 'in bed ideas',
       description: 'simple note taking app that can help you'),
@@ -22,9 +21,6 @@ final projectList = <Project>[
   Project(title: 'Fruits vs Vegetables 4', description: 'description'),
   Project(title: 'Fruits vs Vegetables 5', description: 'description'),
   Project(title: 'Fruits vs Vegetables 6', description: 'description'),
-
-  // ProjectCard2(imageAsset: 'assets/images/fruits_vs_vegetables_logo_nobg.png'),
-  // ProjectCard2(imageAsset: 'assets/images/islam_time_logo.png'),
 ];
 
 class ProjectsPage extends StatefulWidget {
@@ -43,6 +39,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
   var globalIndex = 0;
   var _isEndOfList = false;
   var _isStartOfList = false;
+
+  final _carouselController = CarouselController();
 
   var testList = [
     Container(
@@ -65,17 +63,6 @@ class _ProjectsPageState extends State<ProjectsPage> {
 
   final _autoScrollController = AutoScrollController();
   int _currentFocusedIndex = 0;
-  // late List<Widget> items;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _autoScrollcontroller = AutoScrollController(
-  //     viewportBoundaryGetter: () =>
-  //         Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-  //     axis: Axis.horizontal,
-  //   );
-  // }
 
   @override
   void initState() {
@@ -108,145 +95,186 @@ class _ProjectsPageState extends State<ProjectsPage> {
     print('projectList.length ==>' + projectList.length.toString());
     return Scaffold(
       body: Column(
-        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Headline',
-            style: TextStyle(fontSize: 18),
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                TextButton(
-                  child: Icon(Icons.arrow_back),
-                  onPressed: _isStartOfList
-                      ? null
-                      : () {
-                          setState(() {
-                            _isEndOfList = false;
-                          });
-
-                          print(
-                              '_currentFocusedIndex => $_currentFocusedIndex');
-                          _currentFocusedIndex--;
-                          print(
-                              '_currentFocusedIndex-- => $_currentFocusedIndex');
-
-                          if (_currentFocusedIndex < 0) {
-                            setState(() {
-                              _isStartOfList = true;
-                            });
-                            // _currentFocusedIndex = projectList.length - 1;
-                          }
-
-                          _autoScrollController.scrollToIndex(
-                              _currentFocusedIndex,
-                              preferPosition: AutoScrollPosition.begin);
-
-                          setState(() {});
-                        },
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (c, i) => SizedBox(width: 6),
-                    controller: _autoScrollController,
-
-                    // itemPositionsListener: itemPositionsListener,
-                    // itemScrollController: _scrollController,
-                    shrinkWrap: true,
+          Row(
+            children: [
+              ElevatedButton(
+                child: Icon(Icons.arrow_back),
+                onPressed: () {
+                  _carouselController.previousPage();
+                },
+              ),
+              Expanded(
+                child: CarouselSlider.builder(
+                  carouselController: _carouselController,
+                  itemCount: projectList.length,
+                  itemBuilder: (context, i, ri) {
+                    return ProjectCard(project: projectList[i]);
+                  },
+                  options: CarouselOptions(
+                    height: 320,
+                    // aspectRatio: 3,
+                    viewportFraction: getValueForScreenType(
+                      context: context,
+                      mobile: 0.8,
+                      desktop: 0.33,
+                      tablet: 0.43,
+                    ),
+                    reverse: false,
                     scrollDirection: Axis.horizontal,
-                    // physics: NeverScrollableScrollPhysics(),
-                    itemCount: projectList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return AutoScrollTag(
-                        key: ValueKey(index),
-                        controller: _autoScrollController,
-                        index: index,
-                        child: Card(
-                          child: ProjectCard(
-                            project: projectList[index],
-                          ),
-                        ),
-                      );
-                    },
+                    // enlargeCenterPage: true,
                   ),
                 ),
-                TextButton(
-                  child: Icon(Icons.arrow_forward),
-                  onPressed: _isEndOfList
-                      ? null
-                      : () {
-                          setState(() {
-                            _isStartOfList = false;
-                          });
-
-                          print(
-                              '_currentFocusedIndex => $_currentFocusedIndex');
-                          _currentFocusedIndex++;
-                          print(
-                              '_currentFocusedIndex++ => $_currentFocusedIndex');
-
-                          if (_currentFocusedIndex >= projectList.length) {
-                            // _currentFocusedIndex = projectList.length;
-                            // setState(() {
-                            //   _isEndOfList = true;
-                            // });
-
-                            _currentFocusedIndex = -1;
-                            // _autoScrollController.scrollToIndex(
-                            //   _currentFocusedIndex,
-                            //   preferPosition: AutoScrollPosition.begin,
-                            //   duration: Duration(seconds: 2),
-                            // );
-                          } else {
-                            _autoScrollController.scrollToIndex(
-                              _currentFocusedIndex,
-                              preferPosition: AutoScrollPosition.begin,
-                            );
-                          }
-                          setState(() {});
-                        },
-                ),
-              ],
-            ),
-          ),
-          // ElevatedButton(
-          //   child: Icon(Icons.arrow_back),
-          //   onPressed: () {
-          //     print(controller.offset + 1);
-          //     controller.animateTo(
-          //       controller.offset + 0.5.sw,
-          //       duration: Duration(seconds: 2),
-          //       curve: Curves.fastOutSlowIn,
-          //     );
-          //   },
-          // ),
-          Text(
-            'Demo Headline 2',
-            style: TextStyle(fontSize: 18),
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (ctx, int) {
-                      return Card(
-                        child: ListTile(
-                            title: Text('Motivation $int'),
-                            subtitle: Text(
-                                'this is a description of the motivation')),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+              ElevatedButton(
+                child: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  _carouselController.nextPage();
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
+    // return Scaffold(
+    //   body: Column(
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: <Widget>[
+    //       Text(
+    //         'Headline',
+    //         style: TextStyle(fontSize: 18),
+    //       ),
+    //       Expanded(
+    //         child: Row(
+    //           children: [
+    //             TextButton(
+    //               child: Icon(Icons.arrow_back),
+    //               onPressed: _isStartOfList
+    //                   ? null
+    //                   : () {
+    //                       setState(() {
+    //                         _isEndOfList = false;
+    //                       });
+
+    //                       print(
+    //                           '_currentFocusedIndex => $_currentFocusedIndex');
+    //                       _currentFocusedIndex--;
+    //                       print(
+    //                           '_currentFocusedIndex-- => $_currentFocusedIndex');
+
+    //                       if (_currentFocusedIndex < 0) {
+    //                         setState(() {
+    //                           _isStartOfList = true;
+    //                         });
+    //                         // _currentFocusedIndex = projectList.length - 1;
+    //                       }
+
+    //                       _autoScrollController.scrollToIndex(
+    //                           _currentFocusedIndex,
+    //                           preferPosition: AutoScrollPosition.begin);
+
+    //                       setState(() {});
+    //                     },
+    //             ),
+    //             Expanded(
+    //               child: ListView.separated(
+    //                 separatorBuilder: (c, i) => SizedBox(width: 6),
+    //                 controller: _autoScrollController,
+
+    //                 // itemPositionsListener: itemPositionsListener,
+    //                 // itemScrollController: _scrollController,
+    //                 shrinkWrap: true,
+    //                 scrollDirection: Axis.horizontal,
+    //                 // physics: NeverScrollableScrollPhysics(),
+    //                 itemCount: projectList.length,
+    //                 itemBuilder: (BuildContext context, int index) {
+    //                   return AutoScrollTag(
+    //                     key: ValueKey(index),
+    //                     controller: _autoScrollController,
+    //                     index: index,
+    //                     child: Card(
+    //                       child: ProjectCard(
+    //                         project: projectList[index],
+    //                       ),
+    //                     ),
+    //                   );
+    //                 },
+    //               ),
+    //             ),
+    //             TextButton(
+    //               child: Icon(Icons.arrow_forward),
+    //               onPressed: _isEndOfList
+    //                   ? null
+    //                   : () {
+    //                       setState(() {
+    //                         _isStartOfList = false;
+    //                       });
+
+    //                       print(
+    //                           '_currentFocusedIndex => $_currentFocusedIndex');
+    //                       _currentFocusedIndex++;
+    //                       print(
+    //                           '_currentFocusedIndex++ => $_currentFocusedIndex');
+
+    //                       if (_currentFocusedIndex >= projectList.length) {
+    //                         // _currentFocusedIndex = projectList.length;
+    //                         // setState(() {
+    //                         //   _isEndOfList = true;
+    //                         // });
+
+    //                         _currentFocusedIndex = -1;
+    //                         // _autoScrollController.scrollToIndex(
+    //                         //   _currentFocusedIndex,
+    //                         //   preferPosition: AutoScrollPosition.begin,
+    //                         //   duration: Duration(seconds: 2),
+    //                         // );
+    //                       } else {
+    //                         _autoScrollController.scrollToIndex(
+    //                           _currentFocusedIndex,
+    //                           preferPosition: AutoScrollPosition.begin,
+    //                         );
+    //                       }
+    //                       setState(() {});
+    //                     },
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       // ElevatedButton(
+    //       //   child: Icon(Icons.arrow_back),
+    //       //   onPressed: () {
+    //       //     print(controller.offset + 1);
+    //       //     controller.animateTo(
+    //       //       controller.offset + 0.5.sw,
+    //       //       duration: Duration(seconds: 2),
+    //       //       curve: Curves.fastOutSlowIn,
+    //       //     );
+    //       //   },
+    //       // ),
+    //       Text(
+    //         'Demo Headline 2',
+    //         style: TextStyle(fontSize: 18),
+    //       ),
+    //       Expanded(
+    //         child: CarouselSlider(
+    //           options: CarouselOptions(
+    //             height: 400.0,
+    //             viewportFraction: 0.33,
+    //             enableInfiniteScroll: false,
+    //           ),
+    //           items: [1, 2, 3, 4, 5].map((i) {
+    //             return Builder(
+    //               builder: (BuildContext context) {
+    //                 return ProjectCard(project: projectList[i]);
+    //               },
+    //             );
+    //           }).toList(),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 
@@ -268,6 +296,7 @@ class ProjectCard extends StatelessWidget {
         desktop: 0.3.sw,
       ),
       padding: const EdgeInsets.all(defaultPadding),
+      // margin: const EdgeInsets.all(defaultPadding),
       color: secondaryColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

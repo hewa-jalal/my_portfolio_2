@@ -29,7 +29,7 @@ dependencies:
   glass_kit: ^2.0.1
   google_fonts: ^2.1.0
   lottie: ^1.1.0
-  parallax_rain: ^1.0.4
+  parallax_rain: ^1.1.0
   glass: ^1.0.1
   expansion_tile_card: ^2.0.0
   getwidget: ^2.0.4
@@ -44,7 +44,9 @@ dependencies:
   carousel_slider: ^4.0.0
   scrollable_positioned_list: ^0.2.3
   scroll_to_index: ^2.1.1
-
+  sprung: ^3.0.0
+  hovering: ^1.0.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
