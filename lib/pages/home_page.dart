@@ -3,7 +3,7 @@ import 'package:my_portfolio_2/widgets/header.dart';
 import 'package:parallax_rain/parallax_rain.dart';
 import '../widgets/introduction_text.dart';
 import '../widgets/social_icons.dart';
-import 'project_page.dart';
+import 'projects_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -95,7 +95,7 @@ class IntroductionWidget extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          IntroductionText(),
+          ImprovedIntroductionText(),
           SocialIcons(),
           Align(
             // alignment: Alignment.topLeft,
