@@ -100,22 +100,22 @@ class ImprovedIntroductionText extends StatelessWidget {
                   TypewriterAnimatedText(
                     'Android',
                     textStyle: customTextStyle(64),
-                    speed: Duration(milliseconds: 64),
+                    speed: Duration(milliseconds: 60),
                   ),
                   TypewriterAnimatedText(
                     'IOS',
                     textStyle: customTextStyle(64),
-                    speed: Duration(milliseconds: 64),
+                    speed: Duration(milliseconds: 60),
                   ),
                   TypewriterAnimatedText(
                     'Desktop',
                     textStyle: customTextStyle(64),
-                    speed: Duration(milliseconds: 64),
+                    speed: Duration(milliseconds: 60),
                   ),
                   TypewriterAnimatedText(
                     'Web',
                     textStyle: customTextStyle(64),
-                    speed: Duration(milliseconds: 64),
+                    speed: Duration(milliseconds: 60),
                   ),
                 ],
               ),
@@ -297,6 +297,18 @@ TextStyle customTextStyle(double fontSize) {
     letterSpacing: 4,
     // height: 1.5,
     height: 1.8,
+    // fontWeight: FontWeight.bold,
+  );
+}
+
+TextStyle customTitleTextStyle(double fontSize, BuildContext context) {
+  return GoogleFonts.asap(
+    // fontSize: fontSize.sp,
+    color: Colors.white,
+    letterSpacing: 4,
+    // height: 1.5,
+    height: 1.8,
+    textStyle: Theme.of(context).textTheme.titleMedium,
     // fontWeight: FontWeight.bold,
   );
 }

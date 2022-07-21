@@ -1,12 +1,17 @@
+import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
-import 'package:folding_cell/folding_cell.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:my_portfolio_2/widgets/introduction_text.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:my_portfolio_2/models/project_model.dart';
+import 'package:my_portfolio_2/utils/constants.dart';
+import 'package:my_portfolio_2/utils/projects_list.dart';
 import 'package:parallax_rain/parallax_rain.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import '../widgets/project_card.dart';
 
 class ProjectsPage extends StatelessWidget {
   const ProjectsPage({Key? key}) : super(key: key);
+
   final List<String> elements = const [
     "Zero",
     "One",
@@ -23,10 +28,11 @@ class ProjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           Opacity(
@@ -44,13 +50,38 @@ class ProjectsPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              childAspectRatio: MediaQuery.of(context).size.width /
-                  (MediaQuery.of(context).size.height / 1.3),
-              crossAxisSpacing: 20.0,
-              mainAxisSpacing: 20.0,
-              children: elements.map((element) => Card()).toList(),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ScreenTypeLayout(
+                desktop: LayoutBuilder(builder: (context, constraints) {
+                  return GridView.count(
+                    crossAxisCount: 3,
+                    childAspectRatio: MediaQuery.of(context).size.width /
+                        (MediaQuery.of(context).size.height / 0.8),
+                    // childAspectRatio:
+                    //     constraints.maxWidth / (constraints.maxHeight / 0.75),
+                    // height was => 1.3
+                    crossAxisSpacing: 20.0,
+                    mainAxisSpacing: 20.0,
+                    children: projects
+                        .map(
+                          (project) => ProjectCard(
+                            project: project,
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
+                mobile: ListView.builder(
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    final project = projects[index];
+                    return ImprovedProjectCard(
+                      project: project,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
         ],
@@ -59,113 +90,106 @@ class ProjectsPage extends StatelessWidget {
   }
 }
 
-class FoldingCellSimpleDemo extends StatelessWidget {
-  final _foldingCellKey = GlobalKey<SimpleFoldingCellState>();
+class ImprovedProjectCard extends StatelessWidget {
+  const ImprovedProjectCard({
+    Key? key,
+    required this.project,
+  }) : super(key: key);
+
+  final Project project;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFF2e282a),
-      alignment: Alignment.topCenter,
-      child: SimpleFoldingCell.create(
-        key: _foldingCellKey,
-        frontWidget: _buildFrontWidget(),
-        innerWidget: _buildInnerWidget(),
-        cellSize: Size(MediaQuery.of(context).size.width, 140),
-        padding: EdgeInsets.all(15),
-        animationDuration: Duration(milliseconds: 300),
-        borderRadius: 10,
-        onOpen: () => print('cell opened'),
-        onClose: () => print('cell closed'),
+    final height = MediaQuery.of(context).size.height;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlurryContainer(
+          blur: 5,
+          elevation: 0,
+          color: Colors.white.withOpacity(0.12),
+          padding: const EdgeInsets.all(8),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+          child: Card(
+            color: Colors.transparent,
+            shadowColor: Colors.transparent,
+            child: Column(
+              children: [
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Image.asset(
+                        project.image,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 2,
+                      child: Column(
+                        children: <Widget>[
+                          AutoSizeText(
+                            project.title,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: height * .01),
+                          AutoSizeText(
+                            project.description,
+                            textScaleFactor: 1.2,
+                            style:
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      color: Colors.white70,
+                                    ),
+                            maxLines: 3,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 10),
+                ProjectButtons(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
+}
 
-  Widget _buildFrontWidget() {
-    return Container(
-      color: Color(0xFFffcd3c),
-      alignment: Alignment.center,
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topLeft,
-            child: Image.asset(
+class FrostedGlass extends StatelessWidget {
+  const FrostedGlass({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200.withOpacity(0.1),
+          ),
+          child: ExpansionTile(
+            // backgroundColor: Colors.transparent,
+            leading: Image.asset(
               'assets/images/fruits_vs_vegetables_logo_nobg.png',
-              height: 80,
-              width: 80,
             ),
+            title: Text('Fruits vs Vegetables'),
+            subtitle: Text(
+              '''Id eu exercitation amet nisi labore voluptate. Commodo tempor et magna quis excepteur voluptate quis excepteur labore minim exercitation.''',
+            ),
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: FlutterLogo(),
+              ),
+            ],
           ),
-          Positioned(
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Fruits vs Vegetables',
-                style: customTextStyle(20),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          )
-          // Positioned(
-          //   right: 10,
-          //   bottom: 10,
-          //   child: TextButton(
-          //     onPressed: () => _foldingCellKey?.currentState?.toggleFold(),
-          //     child: Text(
-          //       "OPEN",
-          //     ),
-          //     style: TextButton.styleFrom(
-          //       backgroundColor: Colors.white,
-          //       minimumSize: Size(80, 40),
-          //     ),
-          //   ),
-          // )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInnerWidget() {
-    return Container(
-      color: Color(0xFFecf2f9),
-      padding: EdgeInsets.only(top: 10),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              "CARD TITLE",
-              style: GoogleFonts.aldrich(
-                color: Color(0xFF2e282a),
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              "CARD DETAIL",
-              style: GoogleFonts.aldrich(
-                color: Color(0xFF2e282a),
-                fontSize: 40.0,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 10,
-            bottom: 10,
-            child: TextButton(
-              onPressed: () => _foldingCellKey?.currentState?.toggleFold(),
-              child: Text(
-                "Close",
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white,
-                minimumSize: Size(80, 40),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

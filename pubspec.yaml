@@ -48,6 +48,13 @@ dependencies:
   hovering: ^1.0.4
   folding_cell: ^1.0.2
   animated_text_kit: ^4.2.2
+  web_smooth_scroll: ^1.0.0
+  expansion_widget: ^0.0.3
+  glassmorphism: ^3.0.0
+  blurrycontainer: ^1.0.2
+  expandable: ^5.0.1
+  expand_widget: ^2.1.0
+  animated_card: ^2.0.0
 
 dev_dependencies:
   flutter_test:

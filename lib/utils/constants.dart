@@ -9,3 +9,12 @@ const bgColor = Color(0xFF1E1E28);
 const defaultPadding = 20.0;
 const defaultDuration = Duration(seconds: 1); // we use it on our animation
 const maxWidth = 1440.0; // max width of our web
+
+const fruitsVsVegetablesLogo =
+    'assets/images/fruits_vs_vegetables_logo_nobg.png';
+
+const islamTimeLogo = 'assets/images/islam_time_logo.png';
+
+const googlePlayButton = 'assets/images/Google-Play-Store.png';
+
+const githubButton = 'assets/images/github_logo.png';
