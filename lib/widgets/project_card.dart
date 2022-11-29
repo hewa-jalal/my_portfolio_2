@@ -104,22 +104,29 @@ class ProjectButtons extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
+        Spacer(),
         Expanded(
+          flex: 8,
           child: Image.asset(
             googlePlayButton,
-            // height: height * 0.1,
-            // width: width * 0.1,
-            fit: BoxFit.scaleDown,
+            // height: height * 0.5,
+            // width: width * 0.5,
+            fit: BoxFit.cover,
           ),
         ),
+        Spacer(),
         Expanded(
-          child: Image.asset(githubButton,
-              // height: height * 0.1,
-              // width: width * 0.1,
-              fit: BoxFit.contain),
+          flex: 8,
+          child: Image.asset(
+            githubButtonNew,
+            // height: height * 0.1,
+            // width: width * 0.1,
+            fit: BoxFit.cover,
+          ),
         ),
+        Spacer(),
       ],
     );
   }

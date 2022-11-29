@@ -14,7 +14,9 @@ const fruitsVsVegetablesLogo =
     'assets/images/fruits_vs_vegetables_logo_nobg.png';
 
 const islamTimeLogo = 'assets/images/islam_time_logo.png';
+const ideasLogo = 'assets/images/ideas_logo.png';
 
 const googlePlayButton = 'assets/images/Google-Play-Store.png';
 
 const githubButton = 'assets/images/github_logo.png';
+const githubButtonNew = 'assets/images/github_logo_new.png';

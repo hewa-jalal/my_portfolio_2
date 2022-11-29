@@ -18,4 +18,20 @@ final List<Project> projects = [
     googlePlayUrl: 'googlePlayUrl',
     githubUrl: 'githubUrl',
   ),
+  Project(
+    image: ideasLogo,
+    title: 'Islam Time',
+    description:
+        'ever wondered if a food is a fruit or a vegetable? now you can easily discover that.',
+    googlePlayUrl: 'googlePlayUrl',
+    githubUrl: 'githubUrl',
+  ),
+  Project(
+    image: islamTimeLogo,
+    title: 'Islam Time',
+    description:
+        'ever wondered if a food is a fruit or a vegetable? now you can easily discover that.',
+    googlePlayUrl: 'googlePlayUrl',
+    githubUrl: 'githubUrl',
+  ),
 ];

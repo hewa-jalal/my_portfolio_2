@@ -3,11 +3,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:my_portfolio_2/models/project_model.dart';
-import 'package:my_portfolio_2/utils/constants.dart';
 import 'package:my_portfolio_2/utils/projects_list.dart';
 import 'package:parallax_rain/parallax_rain.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../widgets/project_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProjectsPage extends StatelessWidget {
   const ProjectsPage({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class ProjectsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -50,42 +50,69 @@ class ProjectsPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ScreenTypeLayout(
-                desktop: LayoutBuilder(builder: (context, constraints) {
-                  return GridView.count(
-                    crossAxisCount: 3,
-                    childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height / 0.8),
-                    // childAspectRatio:
-                    //     constraints.maxWidth / (constraints.maxHeight / 0.75),
-                    // height was => 1.3
-                    crossAxisSpacing: 20.0,
-                    mainAxisSpacing: 20.0,
-                    children: projects
-                        .map(
-                          (project) => ProjectCard(
-                            project: project,
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
-                mobile: ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    final project = projects[index];
-                    return ImprovedProjectCard(
-                      project: project,
-                    );
-                  },
-                ),
+            child: ScreenTypeLayout(
+              desktop: ProjectsCardGrid(
+                count: 3,
+                aspectRatio: 1.7,
+              ),
+              tablet: ProjectsCardGrid(
+                count: 2,
+                aspectRatio: 1.6,
+              ),
+              mobile: ProjectsCardGrid(
+                count: 1,
+                aspectRatio: 1.5,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class ProjectsCardGrid extends StatelessWidget {
+  final int count;
+  final double aspectRatio;
+  const ProjectsCardGrid({
+    Key? key,
+    required this.count,
+    required this.aspectRatio,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 22.0),
+          child: Text(
+            'Published Projects',
+            style: TextStyle(
+              fontSize: 26.sp,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GridView.count(
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              crossAxisCount: count,
+              childAspectRatio: aspectRatio,
+              children: projects
+                  .map(
+                    (project) => ImprovedProjectCard(
+                      project: project,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -130,64 +157,34 @@ class ImprovedProjectCard extends StatelessWidget {
                         children: <Widget>[
                           AutoSizeText(
                             project.title,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleLarge,
                             maxLines: 1,
                           ),
-                          SizedBox(height: height * .01),
+                          SizedBox(height: height * .015),
                           AutoSizeText(
                             project.description,
+                            textAlign: TextAlign.center,
                             textScaleFactor: 1.2,
                             style:
                                 Theme.of(context).textTheme.caption!.copyWith(
                                       color: Colors.white70,
+                                      // fontSize: 12.sp,
+                                      fontSize: 15,
                                     ),
                             maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     )
                   ],
                 ),
-                SizedBox(height: 10),
-                ProjectButtons(),
+                // SizedBox(height: 10),
+                Expanded(
+                  child: ProjectButtons(),
+                ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FrostedGlass extends StatelessWidget {
-  const FrostedGlass({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.1),
-          ),
-          child: ExpansionTile(
-            // backgroundColor: Colors.transparent,
-            leading: Image.asset(
-              'assets/images/fruits_vs_vegetables_logo_nobg.png',
-            ),
-            title: Text('Fruits vs Vegetables'),
-            subtitle: Text(
-              '''Id eu exercitation amet nisi labore voluptate. Commodo tempor et magna quis excepteur voluptate quis excepteur labore minim exercitation.''',
-            ),
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: FlutterLogo(),
-              ),
-            ],
           ),
         ),
       ),
